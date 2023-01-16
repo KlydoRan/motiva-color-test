@@ -36,6 +36,7 @@ export class AppContainer extends React.Component {
                 return this.state.backgroundColor2;
             case 2 :
                 return this.state.textColor;
+            default: console.log('error1')
         }
     };
 
@@ -43,12 +44,15 @@ export class AppContainer extends React.Component {
         switch (this.state.selectedItem) {
             case 0:
                 this.setState({ backgroundColor1: color.rgb });
-                break
+                break;
             case 1:
                 this.setState({ backgroundColor2: color.rgb });
-                break
+                break;
             case 2:
                 this.setState({ textColor: color.rgb });
+                break;
+            default:
+                console.log('error2')
         }
     };
 
