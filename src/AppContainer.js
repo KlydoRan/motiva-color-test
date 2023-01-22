@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
-import {ChromePicker} from "react-color";
+import './textLayer';
+import {TextLayer} from "./textLayer";
+
 
 export class AppContainer extends React.Component {
 
@@ -11,9 +13,9 @@ export class AppContainer extends React.Component {
             backgroundColor2: {r: 200, g: 50, b: 150},
             textColor: {r: 0, g: 100, b: 150, a: 0.7},
             selectedItem: 0,
+            backgroundImage: null,
         };
     }
-
 
     getOpacity = () => {
 
@@ -58,16 +60,122 @@ export class AppContainer extends React.Component {
 
     setSelected = (itemNum) => { this.setState({selectedItem: itemNum})};
 
+    onImageUpload = (e) => {
+        const file = e.target.files[0];
+        let reader = new FileReader();
+        //console.log(reader);
+
+        reader.addEventListener('load', (e) => {
+            this.setState({backgroundImage: reader.result});
+            this.processImage(reader.result);
+        });
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };
+
+    processImage = (base64) => {
+        let brightnessMatrix = new Array(24);
+        for (var h = 0; h < brightnessMatrix.length; h++) {
+            brightnessMatrix[h] = new Array(24);
+        }
+
+        var image = new Image();
+        image.src = base64;
+        image.onload = () => {
+            var canvas = document.createElement('canvas');
+            canvas.width = image.width;
+            canvas.height = image.height;
+            var context = canvas.getContext('2d');
+            context.drawImage(image, 0, 0);
+
+            var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+           //console.log(imageData);
+            for (let i=0; i < 480; i=i+20) {
+                for (let j=0; j < 648; j=j+27) {
+                    // analyzing a cell
+                    var sumGrayscale = 0;
+                    var pixel;
+                    for (let m=0; m<20; m++) {
+                        for (let n=0; n<27; n++) {
+                            pixel = this.getPx(imageData,i+m,j+n);
+                            sumGrayscale = sumGrayscale + this.rgb2grayscale(pixel.r,pixel.g,pixel.b);
+                        }
+                    }
+                    brightnessMatrix[Math.floor(i/20)][Math.floor(j/27)] = sumGrayscale/540;
+                }
+            }
+            this.setState({brightnessMatrix: brightnessMatrix});
+        }
+
+    };
+
+     getPx = (imageData, x, y) => {
+
+        var data32 = new Uint32Array(imageData.data.buffer),
+            val32 = data32[y * imageData.width + x],
+            str32,
+            a = 0,
+            b = 0,
+            g = 0,
+            r = 0;
+
+        if (val32 > 0) {
+            str32 = val32.toString(16);
+            a = parseInt(str32.substr(0, 2), 16);
+            b = parseInt(str32.substr(2, 2), 16);
+            g = parseInt(str32.substr(4, 2), 16);
+            r = parseInt(str32.substr(6, 2), 16);
+        }
+
+        return {
+            r: r,
+            g: g,
+            b: b,
+            a: a,
+            black: (r + g + b) / 3
+        };
+
+    };
+
+    rgb2grayscale = (r,g,b) => { return 0.3*r + 0.587*g +0.113*b};
+
     render() {
 
         return (
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%', flexDirection: 'column'}} className="App">
-                <div onClick={(event) => this.setSelected(0)} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',  width: '100%', height: '50%',
+                <div>
+                    <input type={"file"} id={'imageUpload'} name={'imageUpload'} onChange={this.onImageUpload} />
+                </div>
+                <div style={{width: '480px', height: '648px', position:'relative'}}>
+                    <div style={{width: '100%', height: '100%', position: 'absolute'}}>
+                        <img style={{width: '100%', height: '100%'}}  src={this.state.backgroundImage}/>
+                    </div>
+                    <div style={{width: '100%', height: '100%', position: 'absolute'}}>
+                        <div style={{width: '100%', height: '100%'}}>
+                            <TextLayer brightnessMatrix={this.state.brightnessMatrix} targetBrightness={this.state.targetBrightness}/>
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                    <input style={{width: '500px'}}
+                        type='range'
+                        onChange={e=>{this.setState({targetBrightness: e.target.value})}}
+                        min={0}
+                        max={255}
+                        step={1}
+                        value={this.state.targetBrightness}
+                        className='custom-slider'>
+                    </input>
+                </div>
+               {/* <div onClick={(event) => this.setSelected(0)} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',  width: '100%', height: '50%',
                                 backgroundColor: 'rgb('+this.state.backgroundColor1.r+','+this.state.backgroundColor1.g+','+this.state.backgroundColor1.b+')'}}>
                <span className={'text'}  onClick={(event) => {event.stopPropagation(); this.setSelected(2)}} style={{fontSize: '40px', color: 'rgba('+this.state.textColor.r+','+this.state.textColor.g+','+this.state.textColor.b+','+this.state.textColor.a+')'}}> Here text opacity is {this.state.textColor.a}</span>
-                    {/*<div style={{position: 'fixed', top: '10px', left: '10px'}}>
+                    <div style={{position: 'fixed', top: '10px', left: '10px'}}>
                         <ChromePicker width={'200px'} height={'200px'} disableAlpha={true} color={this.state.backgroundColor1} onChangeComplete={this.handleChangeBackground1Complete}/>
-                    </div>*/}
+                    </div>
 
                 </div>
 
@@ -76,7 +184,7 @@ export class AppContainer extends React.Component {
                 </div>
                 <div onClick={(event => {event.stopPropagation()})} style={{position: 'fixed', top: '10px', left: '10px'}}>
                     <ChromePicker width={'200px'} height={'100px'} color={this.getColor()} onChangeComplete={this.handleChangeComplete}/>
-                </div>
+                </div>*/}
             </div>
     )
 
