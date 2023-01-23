@@ -25,63 +25,6 @@ export class AppContainer extends React.Component {
         this.setState({fontDarkColor: {hex: '#000000', rgb: {r: 0, g: 0, b: 0}}});
     }
 
-    /* getOpacity = () => {
-
-         let opacity = (0.3*(this.state.backgroundColor1.r-this.state.backgroundColor2.r+this.state.textColor.a*(this.state.textColor.r-this.state.backgroundColor1.r))+
-                        0.587*(this.state.backgroundColor1.g-this.state.backgroundColor2.g+this.state.textColor.a*(this.state.textColor.g-this.state.backgroundColor1.g))+
-                        0.113*(this.state.backgroundColor1.b-this.state.backgroundColor2.b+this.state.textColor.a*(this.state.textColor.b-this.state.backgroundColor1.b))
-         )/(0.3*(this.state.textColor.r-this.state.backgroundColor2.r)+0.587*(this.state.textColor.g-this.state.backgroundColor2.g)+0.113*(this.state.textColor.b-this.state.backgroundColor2.b))
-         if (opacity >= 0 && opacity <= 1) {
-             return Math.round((opacity + Number.EPSILON) * 100) / 100
-
-         }
-         return 'Errorrrrrrr';
-     };*/
-
-   /* getColor = () => {
-        switch (this.state.selectedItem) {
-            case 0:
-                return this.state.backgroundColor1;
-            case 1:
-                return this.state.backgroundColor2;
-            case 2 :
-                return this.state.textColor;
-            default: console.log('error1')
-        }
-    };
-*/
-    /*handleChangeComplete = (color) => {
-        switch (this.state.selectedItem) {
-            case 0:
-                this.setState({ backgroundColor1: color.rgb });
-                break;
-            case 1:
-                this.setState({ backgroundColor2: color.rgb });
-                break;
-            case 2:
-                this.setState({ textColor: color.rgb });
-                break;
-            default:
-                console.log('error2')
-        }
-    };
-
-    setSelected = (itemNum) => { this.setState({selectedItem: itemNum})};*/
-
-/*    onImageUpload = (e) => {
-        const file = e.target.files[0];
-        let reader = new FileReader();
-        //console.log(reader);
-
-        reader.addEventListener('load', () => {
-            this.setState({backgroundImage: reader.result});
-            this.processImage(reader.result);
-        });
-
-        if (file) {
-            reader.readAsDataURL(file);
-        }
-    };*/
 
     processImage = (base64) => {
         let brightnessMatrix = new Array(24);
@@ -96,22 +39,21 @@ export class AppContainer extends React.Component {
             canvas.width = image.width;
             canvas.height = image.height;
             var context = canvas.getContext('2d');
-            context.drawImage(image, 0, 0);
+            context.drawImage(image, 0, 0, 480, 624);
 
             var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-           //console.log(imageData);
             for (let i=0; i < 480; i=i+20) {
-                for (let j=0; j < 648; j=j+27) {
+                for (let j=0; j < 624; j=j+26) {
                     // analyzing a cell
                     var sumGrayscale = 0;
                     var pixel;
                     for (let m=0; m<20; m++) {
-                        for (let n=0; n<27; n++) {
+                        for (let n=0; n<26; n++) {
                             pixel = this.getPx(imageData,i+m,j+n);
                             sumGrayscale = sumGrayscale + this.rgb2grayscale(pixel.r,pixel.g,pixel.b);
                         }
                     }
-                    brightnessMatrix[Math.floor(i/20)][Math.floor(j/27)] = sumGrayscale/540;
+                    brightnessMatrix[Math.floor(i/20)][Math.floor(j/26)] = sumGrayscale/520;
                 }
             }
             this.setState({brightnessMatrix: brightnessMatrix});
@@ -159,7 +101,7 @@ export class AppContainer extends React.Component {
                 Resizer.imageFileResizer(
                     event.target.files[0],
                     480,
-                    648,
+                    624,
                     "JPEG",
                     100,
                     0,
@@ -169,7 +111,7 @@ export class AppContainer extends React.Component {
                     },
                     "base64",
                     480,
-                    648
+                    624
                 );
             } catch (err) {
                 console.log(err);
@@ -191,9 +133,9 @@ export class AppContainer extends React.Component {
                 <div style={{marginBottom: '10px'}}>
                     <input type={"file"} id={'imageUpload'} name={'imageUpload'} onChange={this.fileChangedHandler} />
                 </div>
-                <div style={{width: '480px', height: '648px', position:'relative'}}>
+                <div style={{width: '480px', height: '624px', position:'relative'}}>
                     <div style={{width: '100%', height: '100%', position: 'absolute'}}>
-                        <img alt={""} style={{width: '100%', height: '100%'}}  src={this.state.backgroundImage}/>
+                        <img alt={""} style={{width: '480px', height: '624px'}}  src={this.state.backgroundImage}/>
                     </div>
                     <div style={{width: '100%', height: '100%', position: 'absolute'}}>
                         <div style={{width: '100%', height: '100%'}}>
@@ -203,7 +145,7 @@ export class AppContainer extends React.Component {
 
                 </div>
                 <div style={{width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-                    <div style={{width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'}}>
+                    <div style={{width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'row-reverse', justifyContent: 'center'}}>
                         <div>
                             <input style={{width: '500px'}}
                                    type='range'
@@ -227,7 +169,73 @@ export class AppContainer extends React.Component {
                         {this.state.targetBrightness} <b>Kr</b>
                     </div>
                 </div>
-               {/* <div onClick={(event) => this.setSelected(0)} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',  width: '100%', height: '50%',
+            </div>
+    )
+
+    }
+
+}
+
+
+/* getOpacity = () => {
+
+     let opacity = (0.3*(this.state.backgroundColor1.r-this.state.backgroundColor2.r+this.state.textColor.a*(this.state.textColor.r-this.state.backgroundColor1.r))+
+                    0.587*(this.state.backgroundColor1.g-this.state.backgroundColor2.g+this.state.textColor.a*(this.state.textColor.g-this.state.backgroundColor1.g))+
+                    0.113*(this.state.backgroundColor1.b-this.state.backgroundColor2.b+this.state.textColor.a*(this.state.textColor.b-this.state.backgroundColor1.b))
+     )/(0.3*(this.state.textColor.r-this.state.backgroundColor2.r)+0.587*(this.state.textColor.g-this.state.backgroundColor2.g)+0.113*(this.state.textColor.b-this.state.backgroundColor2.b))
+     if (opacity >= 0 && opacity <= 1) {
+         return Math.round((opacity + Number.EPSILON) * 100) / 100
+
+     }
+     return 'Errorrrrrrr';
+ };*/
+
+/* getColor = () => {
+     switch (this.state.selectedItem) {
+         case 0:
+             return this.state.backgroundColor1;
+         case 1:
+             return this.state.backgroundColor2;
+         case 2 :
+             return this.state.textColor;
+         default: console.log('error1')
+     }
+ };
+*/
+/*handleChangeComplete = (color) => {
+    switch (this.state.selectedItem) {
+        case 0:
+            this.setState({ backgroundColor1: color.rgb });
+            break;
+        case 1:
+            this.setState({ backgroundColor2: color.rgb });
+            break;
+        case 2:
+            this.setState({ textColor: color.rgb });
+            break;
+        default:
+            console.log('error2')
+    }
+};
+
+setSelected = (itemNum) => { this.setState({selectedItem: itemNum})};*/
+
+/*    onImageUpload = (e) => {
+        const file = e.target.files[0];
+        let reader = new FileReader();
+        //console.log(reader);
+
+        reader.addEventListener('load', () => {
+            this.setState({backgroundImage: reader.result});
+            this.processImage(reader.result);
+        });
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };*/
+
+{/* <div onClick={(event) => this.setSelected(0)} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',  width: '100%', height: '50%',
                                 backgroundColor: 'rgb('+this.state.backgroundColor1.r+','+this.state.backgroundColor1.g+','+this.state.backgroundColor1.b+')'}}>
                <span className={'text'}  onClick={(event) => {event.stopPropagation(); this.setSelected(2)}} style={{fontSize: '40px', color: 'rgba('+this.state.textColor.r+','+this.state.textColor.g+','+this.state.textColor.b+','+this.state.textColor.a+')'}}> Here text opacity is {this.state.textColor.a}</span>
                     <div style={{position: 'fixed', top: '10px', left: '10px'}}>
@@ -242,10 +250,3 @@ export class AppContainer extends React.Component {
                 <div onClick={(event => {event.stopPropagation()})} style={{position: 'fixed', top: '10px', left: '10px'}}>
                     <ChromePicker width={'200px'} height={'100px'} color={this.getColor()} onChangeComplete={this.handleChangeComplete}/>
                 </div>*/}
-            </div>
-    )
-
-    }
-
-}
-

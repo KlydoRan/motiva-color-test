@@ -44,7 +44,7 @@ export class LetterCell extends React.Component {
     render() {
 
         return (
-            <div style={{width: '20px', height:'27px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <div style={{width: '20px', height:'26px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <div style={{opacity: this.getOpacity(), color: this.getColor()}}>{this.getRandomLetter()}</div>
             </div>
 
