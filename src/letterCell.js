@@ -12,15 +12,19 @@ export class LetterCell extends React.Component {
 
     getRandomLetter = () => {
         return String.fromCharCode(Math.floor(Math.random()*26)+65);
-    }
+    };
 
     getOpacity = () => {
         let cellBrightness = this.props.brightness;
         let targetBrightness = this.props.targetBrightness;
-        console.log(cellBrightness);
+        /*console.log(cellBrightness);
         console.log(targetBrightness);
-        console.log((targetBrightness-cellBrightness)/(this.getBrightness()-cellBrightness));
-        return (targetBrightness-cellBrightness)/(this.getBrightness()-cellBrightness);
+        console.log((targetBrightness-cellBrightness)/(this.getBrightness()-cellBrightness));*/
+        let opacity = (targetBrightness-cellBrightness)/(this.getBrightness()-cellBrightness);
+        if (opacity < 0) return 0;
+        if (opacity > 1) return 1;
+        if (!opacity) return 0;
+        return opacity;
     };
 
     getBrightness = () => {

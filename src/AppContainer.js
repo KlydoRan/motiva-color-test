@@ -2,22 +2,24 @@ import React from 'react';
 import './App.css';
 import './textLayer';
 import {TextLayer} from "./textLayer";
+import Resizer from "react-image-file-resizer";
 
 
 export class AppContainer extends React.Component {
 
     constructor(props) {
         super(props);
+        this.fileChangedHandler = this.fileChangedHandler.bind(this);
         this.state = {
             backgroundColor1: {r: 200, g: 100, b: 100},
             backgroundColor2: {r: 200, g: 50, b: 150},
-            textColor: {r: 0, g: 100, b: 150, a: 0.7},
+            textColor: {r: 0, g: 100, b: 150, a: 1},
             selectedItem: 0,
             backgroundImage: null,
         };
     }
 
-    getOpacity = () => {
+   /* getOpacity = () => {
 
         let opacity = (0.3*(this.state.backgroundColor1.r-this.state.backgroundColor2.r+this.state.textColor.a*(this.state.textColor.r-this.state.backgroundColor1.r))+
                        0.587*(this.state.backgroundColor1.g-this.state.backgroundColor2.g+this.state.textColor.a*(this.state.textColor.g-this.state.backgroundColor1.g))+
@@ -28,9 +30,9 @@ export class AppContainer extends React.Component {
 
         }
         return 'Errorrrrrrr';
-    };
+    };*/
 
-    getColor = () => {
+   /* getColor = () => {
         switch (this.state.selectedItem) {
             case 0:
                 return this.state.backgroundColor1;
@@ -41,8 +43,8 @@ export class AppContainer extends React.Component {
             default: console.log('error1')
         }
     };
-
-    handleChangeComplete = (color) => {
+*/
+    /*handleChangeComplete = (color) => {
         switch (this.state.selectedItem) {
             case 0:
                 this.setState({ backgroundColor1: color.rgb });
@@ -58,14 +60,14 @@ export class AppContainer extends React.Component {
         }
     };
 
-    setSelected = (itemNum) => { this.setState({selectedItem: itemNum})};
+    setSelected = (itemNum) => { this.setState({selectedItem: itemNum})};*/
 
-    onImageUpload = (e) => {
+/*    onImageUpload = (e) => {
         const file = e.target.files[0];
         let reader = new FileReader();
         //console.log(reader);
 
-        reader.addEventListener('load', (e) => {
+        reader.addEventListener('load', () => {
             this.setState({backgroundImage: reader.result});
             this.processImage(reader.result);
         });
@@ -73,7 +75,7 @@ export class AppContainer extends React.Component {
         if (file) {
             reader.readAsDataURL(file);
         }
-    };
+    };*/
 
     processImage = (base64) => {
         let brightnessMatrix = new Array(24);
@@ -141,16 +143,44 @@ export class AppContainer extends React.Component {
 
     rgb2grayscale = (r,g,b) => { return 0.3*r + 0.587*g +0.113*b};
 
+    fileChangedHandler(event) {
+        var fileInput = false;
+        if (event.target.files[0]) {
+            fileInput = true;
+        }
+        if (fileInput) {
+            try {
+                Resizer.imageFileResizer(
+                    event.target.files[0],
+                    480,
+                    648,
+                    "JPEG",
+                    100,
+                    0,
+                    (uri) => {
+                        this.setState({ backgroundImage: uri });
+                        this.processImage(uri);
+                    },
+                    "base64",
+                    480,
+                    648
+                );
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    }
+
     render() {
 
         return (
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%', flexDirection: 'column'}} className="App">
                 <div>
-                    <input type={"file"} id={'imageUpload'} name={'imageUpload'} onChange={this.onImageUpload} />
+                    <input type={"file"} id={'imageUpload'} name={'imageUpload'} onChange={this.fileChangedHandler} />
                 </div>
                 <div style={{width: '480px', height: '648px', position:'relative'}}>
                     <div style={{width: '100%', height: '100%', position: 'absolute'}}>
-                        <img style={{width: '100%', height: '100%'}}  src={this.state.backgroundImage}/>
+                        <img alt={""} style={{width: '100%', height: '100%'}}  src={this.state.backgroundImage}/>
                     </div>
                     <div style={{width: '100%', height: '100%', position: 'absolute'}}>
                         <div style={{width: '100%', height: '100%'}}>

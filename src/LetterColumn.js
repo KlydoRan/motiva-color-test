@@ -12,8 +12,6 @@ export class LetterColumn extends React.Component {
     }
 
 
-
-
     render() {
 
         return (
