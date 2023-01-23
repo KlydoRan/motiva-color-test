@@ -4,8 +4,6 @@
     <list default="true" id="f820e553-4860-43b6-8e1a-14a952d5e49f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LetterColumn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LetterColumn.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/letterCell.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/letterCell.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +70,7 @@
       <updated>1673875905967</updated>
       <workItem from="1673875908835" duration="9167000" />
       <workItem from="1673944060693" duration="14006000" />
-      <workItem from="1674397012031" duration="24926000" />
+      <workItem from="1674397012031" duration="25438000" />
     </task>
     <task id="LOCAL-00001" summary="created test for colors">
       <created>1673887630985</created>
@@ -109,7 +107,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674471814803</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Fixed a bug with wrong Image proportions">
+      <created>1674479718019</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1674479718019</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -120,7 +125,8 @@
     <MESSAGE value="Added Image" />
     <MESSAGE value="Added Image resize" />
     <MESSAGE value="Added dark color picker" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added dark color picker" />
+    <MESSAGE value="Fixed a bug with wrong Image proportions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug with wrong Image proportions" />
   </component>
   <component name="WindowStateProjectService">
     <state x="-1368" y="-142" key="#ESLint" timestamp="1673876178871">
@@ -131,10 +137,10 @@
       <screen x="-1920" y="-320" width="1920" height="1040" />
     </state>
     <state x="-1506" y="-145" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680/-1920.-320.1920.1040@-1920.-320.1920.1040" timestamp="1674396802270" />
-    <state x="-1340" y="-206" key="CommitChangelistDialog2" timestamp="1674471814411">
+    <state x="-1340" y="-206" key="CommitChangelistDialog2" timestamp="1674479717598">
       <screen x="-1920" y="-320" width="1920" height="1040" />
     </state>
-    <state x="-1340" y="-206" key="CommitChangelistDialog2/0.0.1280.680/-1920.-320.1920.1040@-1920.-320.1920.1040" timestamp="1674471814411" />
+    <state x="-1340" y="-206" key="CommitChangelistDialog2/0.0.1280.680/-1920.-320.1920.1040@-1920.-320.1920.1040" timestamp="1674479717598" />
     <state x="-1102" y="93" key="Github.ShareDialog" timestamp="1673887421688">
       <screen x="-1920" y="-320" width="1920" height="1040" />
     </state>
@@ -207,10 +213,10 @@
       <screen x="-1920" y="-320" width="1920" height="1040" />
     </state>
     <state x="-1204" y="-89" key="RollbackChangesDialog/0.0.1280.680/-1920.-320.1920.1040@-1920.-320.1920.1040" timestamp="1674405889057" />
-    <state x="-1368" y="-67" key="Vcs.Push.Dialog.v2" timestamp="1674471816083">
+    <state x="-1368" y="-67" key="Vcs.Push.Dialog.v2" timestamp="1674479719527">
       <screen x="-1920" y="-320" width="1920" height="1040" />
     </state>
-    <state x="-1368" y="-67" key="Vcs.Push.Dialog.v2/0.0.1280.680/-1920.-320.1920.1040@-1920.-320.1920.1040" timestamp="1674471816083" />
+    <state x="-1368" y="-67" key="Vcs.Push.Dialog.v2/0.0.1280.680/-1920.-320.1920.1040@-1920.-320.1920.1040" timestamp="1674479719527" />
     <state x="-1264" y="-68" width="607" height="536" key="find.popup" timestamp="1674465337639">
       <screen x="-1920" y="-320" width="1920" height="1040" />
     </state>

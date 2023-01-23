@@ -235,7 +235,7 @@ setSelected = (itemNum) => { this.setState({selectedItem: itemNum})};*/
         }
     };*/
 
-{/* <div onClick={(event) => this.setSelected(0)} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',  width: '100%', height: '50%',
+/* <div onClick={(event) => this.setSelected(0)} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',  width: '100%', height: '50%',
                                 backgroundColor: 'rgb('+this.state.backgroundColor1.r+','+this.state.backgroundColor1.g+','+this.state.backgroundColor1.b+')'}}>
                <span className={'text'}  onClick={(event) => {event.stopPropagation(); this.setSelected(2)}} style={{fontSize: '40px', color: 'rgba('+this.state.textColor.r+','+this.state.textColor.g+','+this.state.textColor.b+','+this.state.textColor.a+')'}}> Here text opacity is {this.state.textColor.a}</span>
                     <div style={{position: 'fixed', top: '10px', left: '10px'}}>
@@ -249,4 +249,4 @@ setSelected = (itemNum) => { this.setState({selectedItem: itemNum})};*/
                 </div>
                 <div onClick={(event => {event.stopPropagation()})} style={{position: 'fixed', top: '10px', left: '10px'}}>
                     <ChromePicker width={'200px'} height={'100px'} color={this.getColor()} onChangeComplete={this.handleChangeComplete}/>
-                </div>*/}
+                </div>*/
