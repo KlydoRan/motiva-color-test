@@ -189,16 +189,21 @@ export class AppContainer extends React.Component {
                     </div>
 
                 </div>
-                <div>
-                    <input style={{width: '500px'}}
-                        type='range'
-                        onChange={e=>{this.setState({targetBrightness: e.target.value})}}
-                        min={0}
-                        max={255}
-                        step={1}
-                        value={this.state.targetBrightness}
-                        className='custom-slider'>
-                    </input>
+                <div style={{width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                    <div>
+                        <input style={{width: '500px'}}
+                               type='range'
+                               onChange={e=>{this.setState({targetBrightness: e.target.value})}}
+                               min={0}
+                               max={255}
+                               step={1}
+                               value={this.state.targetBrightness}
+                               className='custom-slider'>
+                        </input>
+                    </div>
+                    <div>
+                        {this.state.targetBrightness} <b>Kr</b>
+                    </div>
                 </div>
                {/* <div onClick={(event) => this.setSelected(0)} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',  width: '100%', height: '50%',
                                 backgroundColor: 'rgb('+this.state.backgroundColor1.r+','+this.state.backgroundColor1.g+','+this.state.backgroundColor1.b+')'}}>
