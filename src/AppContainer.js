@@ -3,6 +3,8 @@ import './App.css';
 import './textLayer';
 import {TextLayer} from "./textLayer";
 import Resizer from "react-image-file-resizer";
+import {ChromePicker} from "react-color";
+
 
 
 export class AppContainer extends React.Component {
@@ -11,26 +13,30 @@ export class AppContainer extends React.Component {
         super(props);
         this.fileChangedHandler = this.fileChangedHandler.bind(this);
         this.state = {
-            backgroundColor1: {r: 200, g: 100, b: 100},
-            backgroundColor2: {r: 200, g: 50, b: 150},
-            textColor: {r: 0, g: 100, b: 150, a: 1},
             selectedItem: 0,
             backgroundImage: null,
+            fontDarkColor: {hex: '#000000', rgb: {r: 0, g: 0, b: 0}},
+            showColorPicker: false,
+            targetBrightness: 127,
         };
     }
 
-   /* getOpacity = () => {
+    componentDidMount() {
+        this.setState({fontDarkColor: {hex: '#000000', rgb: {r: 0, g: 0, b: 0}}});
+    }
 
-        let opacity = (0.3*(this.state.backgroundColor1.r-this.state.backgroundColor2.r+this.state.textColor.a*(this.state.textColor.r-this.state.backgroundColor1.r))+
-                       0.587*(this.state.backgroundColor1.g-this.state.backgroundColor2.g+this.state.textColor.a*(this.state.textColor.g-this.state.backgroundColor1.g))+
-                       0.113*(this.state.backgroundColor1.b-this.state.backgroundColor2.b+this.state.textColor.a*(this.state.textColor.b-this.state.backgroundColor1.b))
-        )/(0.3*(this.state.textColor.r-this.state.backgroundColor2.r)+0.587*(this.state.textColor.g-this.state.backgroundColor2.g)+0.113*(this.state.textColor.b-this.state.backgroundColor2.b))
-        if (opacity >= 0 && opacity <= 1) {
-            return Math.round((opacity + Number.EPSILON) * 100) / 100
+    /* getOpacity = () => {
 
-        }
-        return 'Errorrrrrrr';
-    };*/
+         let opacity = (0.3*(this.state.backgroundColor1.r-this.state.backgroundColor2.r+this.state.textColor.a*(this.state.textColor.r-this.state.backgroundColor1.r))+
+                        0.587*(this.state.backgroundColor1.g-this.state.backgroundColor2.g+this.state.textColor.a*(this.state.textColor.g-this.state.backgroundColor1.g))+
+                        0.113*(this.state.backgroundColor1.b-this.state.backgroundColor2.b+this.state.textColor.a*(this.state.textColor.b-this.state.backgroundColor1.b))
+         )/(0.3*(this.state.textColor.r-this.state.backgroundColor2.r)+0.587*(this.state.textColor.g-this.state.backgroundColor2.g)+0.113*(this.state.textColor.b-this.state.backgroundColor2.b))
+         if (opacity >= 0 && opacity <= 1) {
+             return Math.round((opacity + Number.EPSILON) * 100) / 100
+
+         }
+         return 'Errorrrrrrr';
+     };*/
 
    /* getColor = () => {
         switch (this.state.selectedItem) {
@@ -171,11 +177,18 @@ export class AppContainer extends React.Component {
         }
     }
 
+   handleChangeFontDarkColor = (color) => {
+
+        this.setState({ fontDarkColor: color });
+
+    };
+
+
     render() {
 
         return (
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%', flexDirection: 'column'}} className="App">
-                <div>
+                <div style={{marginBottom: '10px'}}>
                     <input type={"file"} id={'imageUpload'} name={'imageUpload'} onChange={this.fileChangedHandler} />
                 </div>
                 <div style={{width: '480px', height: '648px', position:'relative'}}>
@@ -184,22 +197,31 @@ export class AppContainer extends React.Component {
                     </div>
                     <div style={{width: '100%', height: '100%', position: 'absolute'}}>
                         <div style={{width: '100%', height: '100%'}}>
-                            <TextLayer brightnessMatrix={this.state.brightnessMatrix} targetBrightness={this.state.targetBrightness}/>
+                            <TextLayer brightnessMatrix={this.state.brightnessMatrix} targetBrightness={this.state.targetBrightness} fontDarkColor={this.state.fontDarkColor}/>
                         </div>
                     </div>
 
                 </div>
-                <div style={{width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-                    <div>
-                        <input style={{width: '500px'}}
-                               type='range'
-                               onChange={e=>{this.setState({targetBrightness: e.target.value})}}
-                               min={0}
-                               max={255}
-                               step={1}
-                               value={this.state.targetBrightness}
-                               className='custom-slider'>
-                        </input>
+                <div style={{width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+                    <div style={{width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'}}>
+                        <div>
+                            <input style={{width: '500px'}}
+                                   type='range'
+                                   onChange={e=>{this.setState({targetBrightness: e.target.value})}}
+                                   min={0}
+                                   max={255}
+                                   step={1}
+                                   value={this.state.targetBrightness}
+                                   className='custom-slider'>
+                            </input>
+                        </div>
+
+                        <div style={{width: '20px', height: '20px', backgroundColor: this.state.fontDarkColor.hex}} onClick={()=>{this.setState({showColorPicker: !this.state.showColorPicker})}}>
+                        </div>
+                        <div style={{position: 'fixed', bottom: '10px', right: '10px'}}>
+                            {this.state.showColorPicker ? <ChromePicker width={'200px'} height={'200px'} disableAlpha={true} color={this.state.fontDarkColor} onChangeComplete={this.handleChangeFontDarkColor}/> : null}
+                        </div>
+
                     </div>
                     <div>
                         {this.state.targetBrightness} <b>Kr</b>

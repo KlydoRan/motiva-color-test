@@ -18,7 +18,7 @@ export class TextLayer extends React.Component {
         return (
             <div style={{display: 'flex',  width: '100%', height: '100%', flexDirection: 'row', flexWrap: 'wrap'}} className="App">
                 {this.props.brightnessMatrix && this.props.brightnessMatrix.map(((brightness,index) =>  {
-                    return <LetterColumn key={index} brightnessColumn={brightness} targetBrightness={this.props.targetBrightness}/>}))
+                    return <LetterColumn key={index} brightnessColumn={brightness} targetBrightness={this.props.targetBrightness} fontDarkColor={this.props.fontDarkColor}/>}))
                 }
             </div>
     )
