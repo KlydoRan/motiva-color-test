@@ -24,6 +24,7 @@ export class AppContainer extends React.Component {
     }
 
     processImage = (base64) => {
+
         let brightnessMatrix = new Array(24);
         for (var h = 0; h < brightnessMatrix.length; h++) {
             brightnessMatrix[h] = new Array(24);
@@ -32,12 +33,13 @@ export class AppContainer extends React.Component {
         var image = new Image();
         image.src = base64;
         image.onload = () => {
+
             var canvas = document.createElement('canvas');
             canvas.width = image.width;
             canvas.height = image.height;
             var context = canvas.getContext('2d');
             context.drawImage(image, 0, 0, 480, 624);
-
+            let cellsContrast = [];
             var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
             for (let i=0; i < 480; i=i+20) {
                 for (let j=0; j < 624; j=j+26) {
@@ -50,10 +52,12 @@ export class AppContainer extends React.Component {
                             sumGrayscale = sumGrayscale + this.rgb2grayscale(pixel.r,pixel.g,pixel.b);
                         }
                     }
-                    brightnessMatrix[Math.floor(i/20)][Math.floor(j/26)] = sumGrayscale/520;
+                    let cellBrightness = sumGrayscale/520;
+                    brightnessMatrix[Math.floor(i/20)][Math.floor(j/26)] = cellBrightness;
+                    cellsContrast.push(this.contrastCalc(this.state.targetBrightness,cellBrightness));
                 }
             }
-            this.setState({brightnessMatrix: brightnessMatrix});
+            this.setState({brightnessMatrix: brightnessMatrix, cellsContrast: cellsContrast});
         }
     };
 
@@ -121,6 +125,34 @@ export class AppContainer extends React.Component {
 
     };
 
+    onTargetBrightnessChange = (e) => {
+
+        let targetBrightness = e.target.value;
+        let cellsContrast =[];
+        let cells = this.state.brightnessMatrix;
+
+        if (cells) {
+            cells.forEach(column => {
+                column.forEach(cell => {
+                    cellsContrast.push(this.contrastCalc(targetBrightness,cell))
+                })
+            });
+        }
+
+
+        this.setState({cellsContrast: cellsContrast, targetBrightness: targetBrightness});
+    };
+
+    contrastCalc = (fontBrightness,backgroundBrightness) => {
+        if (fontBrightness > backgroundBrightness) return ((fontBrightness/255+0.05)/(backgroundBrightness/255+0.05));
+        return ((backgroundBrightness/255+0.05)/(fontBrightness/255+0.05));
+    };
+
+    getAverageContrast = () => {
+        let cellsContrast = this.state.cellsContrast;
+
+        return cellsContrast && Math.round(cellsContrast.reduce((partialSum, a) => partialSum + a, 0)/cellsContrast.length * 1000) / 1000 ;
+    };
 
     render() {
 
@@ -145,7 +177,7 @@ export class AppContainer extends React.Component {
                         <div>
                             <input style={{width: '500px'}}
                                    type='range'
-                                   onChange={e=>{this.setState({targetBrightness: e.target.value})}}
+                                   onChange={this.onTargetBrightnessChange}
                                    min={0}
                                    max={255}
                                    step={1}
@@ -163,6 +195,9 @@ export class AppContainer extends React.Component {
                     </div>
                     <div>
                         {this.state.targetBrightness} <b>Kr</b>
+                    </div>
+                    <div>
+                        {this.getAverageContrast() ?  'Average Contrast: ' + this.getAverageContrast() : '' }
                     </div>
                 </div>
             </div>
