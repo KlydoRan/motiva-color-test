@@ -29,14 +29,17 @@ export class LetterCell extends React.Component {
 
     getBrightness = () => {
         let cellBrightness = this.props.brightness;
-        if (cellBrightness < 128) return 255;
+        let targetBrightness = this.props.targetBrightness;
+        if (cellBrightness < targetBrightness) return 255;
         if (this.props.darkColor.rgb) return 0.3*this.props.darkColor.rgb.r+0.587*this.props.darkColor.rgb.g+0.113*this.props.darkColor.rgb.b;
-        return 1;
+        return 0;
     };
 
     getColor = () => {
         let cellBrightness = this.props.brightness;
-        if (cellBrightness < 128)  return '#ffffff';
+        let targetBrightness = this.props.targetBrightness;
+
+        if (cellBrightness < targetBrightness) return '#ffffff';
         return this.props.darkColor.hex;
 
     };

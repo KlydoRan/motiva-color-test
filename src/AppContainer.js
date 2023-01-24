@@ -5,8 +5,6 @@ import {TextLayer} from "./textLayer";
 import Resizer from "react-image-file-resizer";
 import {ChromePicker} from "react-color";
 
-
-
 export class AppContainer extends React.Component {
 
     constructor(props) {
@@ -24,7 +22,6 @@ export class AppContainer extends React.Component {
     componentDidMount() {
         this.setState({fontDarkColor: {hex: '#000000', rgb: {r: 0, g: 0, b: 0}}});
     }
-
 
     processImage = (base64) => {
         let brightnessMatrix = new Array(24);
@@ -44,7 +41,7 @@ export class AppContainer extends React.Component {
             var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
             for (let i=0; i < 480; i=i+20) {
                 for (let j=0; j < 624; j=j+26) {
-                    // analyzing a cell
+                // analyzing a cell (getting average grayscale value of cell)
                     var sumGrayscale = 0;
                     var pixel;
                     for (let m=0; m<20; m++) {
@@ -58,7 +55,6 @@ export class AppContainer extends React.Component {
             }
             this.setState({brightnessMatrix: brightnessMatrix});
         }
-
     };
 
      getPx = (imageData, x, y) => {
