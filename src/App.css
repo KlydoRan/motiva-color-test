@@ -9,5 +9,5 @@
 
 @font-face {
   font-family: 'Motiva';
-  src: local('Motiva-Regular'), url("Motiva-Regular.otf") format('otf');
+  src: local('Motiva-Regular'), url("./Motiva-Regular.otf") format('otf');
 }

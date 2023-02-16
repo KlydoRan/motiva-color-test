@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f820e553-4860-43b6-8e1a-14a952d5e49f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Motiva-Regular.otf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LetterColumn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LetterColumn.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/letterCell.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/letterCell.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/textLayer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/textLayer.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +40,9 @@
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\IntelliJ IDEA 2019.3.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Nir\IdeaProjects\motiva-color-test\public" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Nir\IdeaProjects\motiva-color-test\src" />
     </key>
@@ -78,7 +76,7 @@
       <workItem from="1673944060693" duration="14006000" />
       <workItem from="1674397012031" duration="42750000" />
       <workItem from="1674994590141" duration="1365000" />
-      <workItem from="1676538020577" duration="6187000" />
+      <workItem from="1676538020577" duration="8462000" />
     </task>
     <task id="LOCAL-00001" summary="created test for colors">
       <created>1673887630985</created>
@@ -143,7 +141,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674553302363</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Added:&#10;- Motiva Font&#10;- Margins&#10;- customize light color">
+      <created>1676544355324</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1676544355324</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -170,7 +175,8 @@
     <MESSAGE value="Fixed a bug with wrong Image proportions" />
     <MESSAGE value="changed font color behavour so that font can be either whit or black depending on the target brightness" />
     <MESSAGE value="Added average contrast of text vs image" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added average contrast of text vs image" />
+    <MESSAGE value="Added:&#10;- Motiva Font&#10;- Margins&#10;- customize light color" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added:&#10;- Motiva Font&#10;- Margins&#10;- customize light color" />
   </component>
   <component name="WindowStateProjectService">
     <state x="-1368" y="-142" key="#ESLint" timestamp="1673876178871">
@@ -181,10 +187,10 @@
       <screen x="-1920" y="-320" width="1920" height="1040" />
     </state>
     <state x="-1506" y="-145" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680/-1920.-320.1920.1040@-1920.-320.1920.1040" timestamp="1674396802270" />
-    <state x="-1340" y="-206" key="CommitChangelistDialog2" timestamp="1674553301977">
+    <state x="-1340" y="-206" key="CommitChangelistDialog2" timestamp="1676544354794">
       <screen x="-1920" y="-320" width="1920" height="1040" />
     </state>
-    <state x="-1340" y="-206" key="CommitChangelistDialog2/0.0.1280.680/-1920.-320.1920.1040@-1920.-320.1920.1040" timestamp="1674553301977" />
+    <state x="-1340" y="-206" key="CommitChangelistDialog2/0.0.1280.680/-1920.-320.1920.1040@-1920.-320.1920.1040" timestamp="1676544354794" />
     <state x="-1102" y="93" key="Github.ShareDialog" timestamp="1673887421688">
       <screen x="-1920" y="-320" width="1920" height="1040" />
     </state>
@@ -257,10 +263,10 @@
       <screen x="-1920" y="-320" width="1920" height="1040" />
     </state>
     <state x="-1204" y="-89" key="RollbackChangesDialog/0.0.1280.680/-1920.-320.1920.1040@-1920.-320.1920.1040" timestamp="1674405889057" />
-    <state x="-1368" y="-67" key="Vcs.Push.Dialog.v2" timestamp="1674553303860">
+    <state x="-1368" y="-67" key="Vcs.Push.Dialog.v2" timestamp="1676544357478">
       <screen x="-1920" y="-320" width="1920" height="1040" />
     </state>
-    <state x="-1368" y="-67" key="Vcs.Push.Dialog.v2/0.0.1280.680/-1920.-320.1920.1040@-1920.-320.1920.1040" timestamp="1674553303860" />
+    <state x="-1368" y="-67" key="Vcs.Push.Dialog.v2/0.0.1280.680/-1920.-320.1920.1040@-1920.-320.1920.1040" timestamp="1676544357478" />
     <state x="-1264" y="-68" width="607" height="536" key="find.popup" timestamp="1674465337639">
       <screen x="-1920" y="-320" width="1920" height="1040" />
     </state>
