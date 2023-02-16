@@ -17,7 +17,7 @@ export class LetterColumn extends React.Component {
         return (
             <div style={{width: '20px', height:'624px', display: 'flex', flexDirection: 'column'}}>
                 {this.props.brightnessColumn && this.props.brightnessColumn.map(((brightness,index) =>  {
-                    return <LetterCell key={index} brightness={brightness} targetBrightness={this.props.targetBrightness} darkColor={this.props.fontDarkColor}/>}))
+                    return <LetterCell key={index} brightness={brightness} targetBrightness={this.props.targetBrightness} lightColor={this.props.fontLightColor} darkColor={this.props.fontDarkColor}/>}))
                 }
             </div>
 

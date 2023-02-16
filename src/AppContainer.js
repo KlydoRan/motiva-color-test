@@ -14,7 +14,9 @@ export class AppContainer extends React.Component {
             selectedItem: 0,
             backgroundImage: null,
             fontDarkColor: {hex: '#000000', rgb: {r: 0, g: 0, b: 0}},
-            showColorPicker: false,
+            fontLightColor: {hex: '#ffffff', rgb: {r: 255, g: 255, b: 255}},
+            showDarkColorPicker: false,
+            showLightColorPicker: false,
             targetBrightness: 127,
         };
     }
@@ -38,27 +40,41 @@ export class AppContainer extends React.Component {
             canvas.width = image.width;
             canvas.height = image.height;
             var context = canvas.getContext('2d');
-            context.drawImage(image, 0, 0, 480, 624);
+            context.drawImage(image, 0, 0, 556, 696);
             let cellsContrast = [];
-            var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            var imageData = context.getImageData(38, 34, canvas.width-76, canvas.height-72);
             for (let i=0; i < 480; i=i+20) {
                 for (let j=0; j < 624; j=j+26) {
                 // analyzing a cell (getting average grayscale value of cell)
-                    var sumGrayscale = 0;
-                    var pixel;
+                    var pixels = [];
                     for (let m=0; m<20; m++) {
                         for (let n=0; n<26; n++) {
-                            pixel = this.getPx(imageData,i+m,j+n);
-                            sumGrayscale = sumGrayscale + this.rgb2grayscale(pixel.r,pixel.g,pixel.b);
+                            pixels.push(this.getPx(imageData,i+m,j+n));
+
                         }
                     }
-                    let cellBrightness = sumGrayscale/520;
-                    brightnessMatrix[Math.floor(i/20)][Math.floor(j/26)] = cellBrightness;
-                    cellsContrast.push(this.contrastCalc(this.state.targetBrightness,cellBrightness));
+                    let cellBrightnessAverage = pixels.reduce((partialSum, pixel) => partialSum + this.rgb2grayscale(pixel.r,pixel.g,pixel.b), 0)/pixels.length;
+                    //console.log('x: '+i,'y: '+j, 'avarageBrightness: '+cellBrightnessAverage);
+                    //let cellBrightnessAverage = this.median(pixels.map(pixel => this.rgb2grayscale(pixel.r,pixel.g,pixel.b)));
+
+
+                    brightnessMatrix[Math.floor(i/20)][Math.floor(j/26)] = cellBrightnessAverage;
+                    cellsContrast.push(this.contrastCalc(this.state.targetBrightness,cellBrightnessAverage));
                 }
             }
             this.setState({brightnessMatrix: brightnessMatrix, cellsContrast: cellsContrast});
         }
+    };
+
+     median = (arr) => {
+        if (arr.length === 0) {
+            return; // 0.
+        }
+        arr.sort((a, b) => a - b); // 1.
+        const midpoint = Math.floor(arr.length / 2); // 2.
+        return arr.length % 2 === 1 ?
+            arr[midpoint] : // 3.1. If odd length, just take midpoint
+            (arr[midpoint - 1] + arr[midpoint]) / 2; // 3.2. If even length, take median of midpoints
     };
 
      getPx = (imageData, x, y) => {
@@ -84,7 +100,6 @@ export class AppContainer extends React.Component {
             g: g,
             b: b,
             a: a,
-            black: (r + g + b) / 3
         };
 
     };
@@ -100,8 +115,8 @@ export class AppContainer extends React.Component {
             try {
                 Resizer.imageFileResizer(
                     event.target.files[0],
-                    480,
-                    624,
+                    556,
+                    696,
                     "JPEG",
                     100,
                     0,
@@ -110,8 +125,8 @@ export class AppContainer extends React.Component {
                         this.processImage(uri);
                     },
                     "base64",
-                    480,
-                    624
+                    556,
+                    696
                 );
             } catch (err) {
                 console.log(err);
@@ -122,6 +137,12 @@ export class AppContainer extends React.Component {
    handleChangeFontDarkColor = (color) => {
 
         this.setState({ fontDarkColor: color });
+
+    };
+
+    handleChangeFontLightColor = (color) => {
+
+        this.setState({ fontLightColor: color });
 
     };
 
@@ -161,19 +182,24 @@ export class AppContainer extends React.Component {
                 <div style={{marginBottom: '10px'}}>
                     <input type={"file"} id={'imageUpload'} name={'imageUpload'} onChange={this.fileChangedHandler} />
                 </div>
-                <div style={{width: '480px', height: '624px', position:'relative'}}>
+                <div style={{width: '556px', height: '696px', position:'relative'}}>
                     <div style={{width: '100%', height: '100%', position: 'absolute'}}>
-                        <img alt={""} style={{width: '480px', height: '624px'}}  src={this.state.backgroundImage}/>
+                        <img alt={""} style={{width: '556px', height: '696px'}}  src={this.state.backgroundImage}/>
                     </div>
                     <div style={{width: '100%', height: '100%', position: 'absolute'}}>
-                        <div style={{width: '100%', height: '100%'}}>
-                            <TextLayer brightnessMatrix={this.state.brightnessMatrix} targetBrightness={this.state.targetBrightness} fontDarkColor={this.state.fontDarkColor}/>
+                        <div style={{width: '100%', height: '100%', fontFamily: 'Motiva'}}>
+                            <TextLayer brightnessMatrix={this.state.brightnessMatrix} targetBrightness={this.state.targetBrightness} fontLightColor={this.state.fontLightColor} fontDarkColor={this.state.fontDarkColor}/>
                         </div>
                     </div>
 
                 </div>
-                <div style={{width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+                <div style={{width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column', marginTop: '20px'}}>
                     <div style={{width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'row-reverse', justifyContent: 'center'}}>
+                        <div style={{width: '20px', height: '20px', border: '1px solid', backgroundColor: this.state.fontLightColor.hex}} onClick={()=>{this.setState({showLightColorPicker: !this.state.showLightColorPicker, showDarkColorPicker: false})}}>
+                        </div>
+                        <div style={{position: 'fixed', bottom: '10px', right: '10px'}}>
+                            {this.state.showLightColorPicker ? <ChromePicker width={'200px'} height={'200px'} disableAlpha={true} color={this.state.fontLightColor} onChangeComplete={this.handleChangeFontLightColor}/> : null}
+                        </div>
                         <div>
                             <input style={{width: '500px'}}
                                    type='range'
@@ -186,10 +212,10 @@ export class AppContainer extends React.Component {
                             </input>
                         </div>
 
-                        <div style={{width: '20px', height: '20px', backgroundColor: this.state.fontDarkColor.hex}} onClick={()=>{this.setState({showColorPicker: !this.state.showColorPicker})}}>
+                        <div style={{width: '20px', height: '20px', border: '1px solid', backgroundColor: this.state.fontDarkColor.hex}} onClick={()=>{this.setState({showDarkColorPicker: !this.state.showDarkColorPicker, showLightColorPicker: false})}}>
                         </div>
                         <div style={{position: 'fixed', bottom: '10px', right: '10px'}}>
-                            {this.state.showColorPicker ? <ChromePicker width={'200px'} height={'200px'} disableAlpha={true} color={this.state.fontDarkColor} onChangeComplete={this.handleChangeFontDarkColor}/> : null}
+                            {this.state.showDarkColorPicker ? <ChromePicker width={'200px'} height={'200px'} disableAlpha={true} color={this.state.fontDarkColor} onChangeComplete={this.handleChangeFontDarkColor}/> : null}
                         </div>
 
                     </div>
